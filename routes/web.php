@@ -19,3 +19,6 @@ Route::get('/', function () {
 });
 
 Route::resource('mentee', menteeController::class);
+Route::get('/mentee/{id}', 'MenteeController@show')->name('mentee.show');
+Route::get('mentee/{id}', 'menteeController@show')->name('mentee.show');
+

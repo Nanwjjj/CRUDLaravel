@@ -35,9 +35,8 @@
                         <td>{{ $item->nama }}</td>
                         <td>{{ $item->prodi }}</td>
                         <td>
-                            
+                            <a href="{{ route('mentee.show', $item->nim) }}" class="btn btn-info btn-sm">Detail</a>
                             <a href='{{ url('mentee/'.$item->nim.'/edit') }}' class="btn btn-warning btn-sm">Edit</a>
-                            <a href='{{ url('mentee/'.$item->nim) }}' class="btn btn-info btn-sm">Detail</a>
                             <form onsubmit="return confirm('Apakah anda yakin akan menghapus data?')" class="d-inline" action="{{ url('mentee/'.$item->nim) }}" method="post">
                                 @csrf
                                 @method('DELETE')

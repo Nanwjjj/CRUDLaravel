@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\mentee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\View\View;
+use PHPUnit\Metadata\PostCondition;
 
 class menteeController extends Controller
 {
@@ -16,7 +18,7 @@ class menteeController extends Controller
     public function index(Request $request)
     {
         $katakunci = $request->katakunci;
-        $jumlahbaris = 4;
+        $jumlahbaris = 3;
         if (strlen($katakunci)) {
             $data = mentee::where('nim','like',"%$katakunci%")
             ->orWhere('nama','like',"%$katakunci%")
@@ -70,11 +72,21 @@ class menteeController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show($id)
     {
-        //Query builder
-        dd($id);
+        try {
+            $mentee = Mentee::where('nim', $id)->first(); // Mengambil data mentee berdasarkan NIM
+            if ($mentee) {
+                return view('mentee.show')->with('mentee', $mentee);
+            } else {
+                return redirect()->route('mentee.index')->with('error', 'Mentee not found.');
+            }
+        } catch (\Exception $e) {
+            // Handle exception, misalnya tampilkan pesan error atau redirect ke halaman lain
+            return redirect()->route('mentee.index')->with('error', 'An error occurred.');
+        }
     }
+    
 
     /**
      * Show the form for editing the specified resource.
